@@ -3,7 +3,6 @@ import shutil
 from flask import Flask, render_template, request
 
 user_path = input("Enter the folder's path: ").lower()
-# user_path = "D:/Images"
 
 app = Flask(__name__, static_folder=user_path, static_url_path="/")
 
@@ -117,6 +116,7 @@ def move_file():
         move_to_directory = request.form["directory_button"]
 
         try:
+            print("move_to_directory:", move_to_directory)
             shutil.move(
                 f"{user_path}/{selected_directory}{images[image_num]}",
                 f"{user_path}/{selected_directory}{move_to_directory}",
@@ -229,32 +229,37 @@ def create_folder():
         try:
             os.mkdir(f"{user_path}/{selected_directory}{new_directory}")
 
-            directories = [
-                dir
-                for dir in os.listdir(f"{user_path}/{selected_directory}")
-                if os.path.isdir(f"{user_path}/{selected_directory}{dir}")
-                and dir not in ignore_dirs
-            ]
+        except:
+            pass
 
-            directories.sort(key=str.lower, reverse=False)
+        global directories
 
-            if images:
-                current_image = f"{selected_directory}{images[image_num]}"
-            else:
-                current_image = None
+        directories = [
+            dir
+            for dir in os.listdir(f"{user_path}/{selected_directory}")
+            if os.path.isdir(f"{user_path}/{selected_directory}{dir}")
+            and dir not in ignore_dirs
+        ]
 
-            return render_template(
-                "index.html",
-                selected_directory=selected_directory,
-                total_images=total_images,
-                image_num=image_num,
-                current_image=current_image,
-                directories=directories,
-                moved_to_folder=moved_to_folder,
-                moved_option=moved_option,
-            )
-        except Exception as e:
-            return f"An error occured: {e}"
+        directories.sort(key=str.lower, reverse=False)
+
+        if images:
+            current_image = f"{selected_directory}{images[image_num]}"
+        else:
+            current_image = None
+
+        return render_template(
+            "index.html",
+            selected_directory=selected_directory,
+            total_images=total_images,
+            image_num=image_num,
+            current_image=current_image,
+            directories=directories,
+            moved_to_folder=moved_to_folder,
+            moved_option=moved_option,
+        )
+        # except Exception as e:
+        #     return f"An error occured: {e}"
 
 
 @app.route("/go_to_image", methods=["POST"])
@@ -297,6 +302,9 @@ def next_image():
     global image_num
     image_num += 1
 
+    if image_num == total_images:
+        image_num = 0
+
     return render_template(
         "index.html",
         selected_directory=selected_directory,
@@ -315,6 +323,9 @@ def previous_image():
     print("directories:", directories)
     global image_num
     image_num -= 1
+
+    if image_num < 0:
+        image_num = total_images - 1
 
     return render_template(
         "index.html",
@@ -461,4 +472,4 @@ def parent_directory():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
