@@ -125,28 +125,30 @@ def move_file():
             moved_option = True
             moved_index = image_num
             images.pop(image_num)
-            global total_images
-            total_images -= 1
-            if image_num == total_images:
-                image_num -= 1
 
-            if images:
-                current_image = f"{selected_directory}{images[image_num]}"
-            else:
-                current_image = None
+        except:
+            pass
 
-            return render_template(
-                "index.html",
-                selected_directory=selected_directory,
-                total_images=total_images,
-                image_num=image_num,
-                current_image=current_image,
-                directories=directories,
-                moved_to_folder=moved_to_folder,
-                moved_option=moved_option,
-            )
-        except Exception as e:
-            return f"An error occured: {e}"
+        global total_images
+        total_images -= 1
+        if image_num == total_images:
+            image_num -= 1
+
+        if images:
+            current_image = f"{selected_directory}{images[image_num]}"
+        else:
+            current_image = None
+
+        return render_template(
+            "index.html",
+            selected_directory=selected_directory,
+            total_images=total_images,
+            image_num=image_num,
+            current_image=current_image,
+            directories=directories,
+            moved_to_folder=moved_to_folder,
+            moved_option=moved_option,
+        )
 
 
 @app.route("/undo_move", methods=["POST"])
@@ -258,8 +260,6 @@ def create_folder():
             moved_to_folder=moved_to_folder,
             moved_option=moved_option,
         )
-        # except Exception as e:
-        #     return f"An error occured: {e}"
 
 
 @app.route("/go_to_image", methods=["POST"])

@@ -1,10 +1,10 @@
 *last updated on April 27, 2026 - Python 3.10.9*
 
-# ZUPAPictures Sorter (W.I.P.)- Because I was fed up dragging files to their target folder
+# ZUPAPictures Sorter - Because I was fed up dragging files to their target folder
 A small Flask app that allows one to sort (move or remove) pictures to sub-folders in one click.
 
 What you can do:
-- Move a picture to a target folder by simply clicking on the folder you want it to move to
+- Move a picture to a target folder by simply clicking on the folder you want it to move to (nothing will happen if there is a file with the name in the target folder)
 - Cancel the last move
 - Remove a picture
 - Create a folder inside the folder you are currently browsing (automatically skipped if the folder already exists)
@@ -14,9 +14,9 @@ What you can do:
 - Loop through the images list
 
 What you cannot do:
-- summon a hot Elf
-- get free coffee
-- sort files other than PNG / JPG / JPEG (not that others formats wouldn't work, I only implemented what I commonly use)
+- Summon a hot Elf
+- Get free coffee
+- Sort files other than PNG / JPG / JPEG (not that others formats wouldn't work, I only implemented what I commonly use)
 
 # Latest version (April 2026)
 ![Image](pictures_sorter_flask_20260427.png)
